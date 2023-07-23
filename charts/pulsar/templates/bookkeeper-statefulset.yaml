@@ -78,7 +78,7 @@ spec:
                 operator: In
                 values:
                 - {{ .Values.bookkeeper.component }}
-            topologyKey: "kubernetes.io/hostname"
+            topologyKey: {{ .Values.bookkeeper.affinity.anti_affinity_topology_key }}
         {{ else }}
           {{ .Values.bookkeeper.affinity.type }}:
             - weight: 100
@@ -97,7 +97,7 @@ spec:
                       operator: In
                       values:
                       - {{ .Values.bookkeeper.component }}
-                topologyKey: "kubernetes.io/hostname"
+                topologyKey: {{ .Values.bookkeeper.affinity.anti_affinity_topology_key }}
         {{ end }}
         {{- end }}
       terminationGracePeriodSeconds: {{ .Values.bookkeeper.gracePeriod }}
@@ -267,7 +267,7 @@ spec:
     {{- if .storageClassName }}
       storageClassName: "{{ .storageClassName }}"
     {{- end }}
-    {{- with .Values.bookkeeper.volumes.journal.selector }}
+    {{- with $.Values.bookkeeper.volumes.journal.selector }}
       selector:
         {{- toYaml . | nindent 8 }}
     {{- end }}
@@ -306,7 +306,7 @@ spec:
     {{- if .storageClassName }}
       storageClassName: "{{ .storageClassName }}"
     {{- end }}
-    {{- with .Values.bookkeeper.volumes.ledgers.selector }}
+    {{- with $.Values.bookkeeper.volumes.ledgers.selector }}
       selector:
         {{- toYaml . | nindent 8 }}
     {{- end }}
